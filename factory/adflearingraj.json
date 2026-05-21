@@ -1,0 +1,15 @@
+{
+	"name": "adflearingraj",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "7654b621-439b-4fe9-88da-4c18b032195c",
+		"tenantId": "ee189965-b1d8-44e3-96da-c4727065dd28"
+	}
+}

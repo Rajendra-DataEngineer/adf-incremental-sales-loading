@@ -1,0 +1,185 @@
+{
+	"name": "01_Incremental_sales_pipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_Incremental_sales",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "saleID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SaleID",
+									"type": "Int32",
+									"physicalType": "int"
+								}
+							},
+							{
+								"source": {
+									"name": "Product",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Product",
+									"type": "String",
+									"physicalType": "varchar"
+								}
+							},
+							{
+								"source": {
+									"name": "amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Amount",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 10
+								}
+							},
+							{
+								"source": {
+									"name": "saledate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "LastModifiedDate",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "salesdata1",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "SalesSQLsink",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Lookup_lastdate",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT MAX(LastModifiedDate) AS NewWatermarkValue FROM Sales_Target;",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "SalesSQLsink",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "sp_update_watermark",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy_Incremental_sales",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Lookup_lastdate",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[UpdateWatermarkValue]",
+					"storedProcedureParameters": {
+						"Tablename": {
+							"value": "'Sales_target'",
+							"type": "String"
+						},
+						"Lastmodifieddate": {
+							"value": {
+								"value": "@activity('Lookup_Lastdate').output.firstRow.NewWatermarkValue",
+								"type": "Expression"
+							},
+							"type": "Datetime"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureSqlLS",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-05-21T13:05:36Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
