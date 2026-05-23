@@ -22,7 +22,7 @@ This project demonstrates a real-time **Incremental Load Pipeline** using **Wate
 - Watermark Pattern
 
 ## Screenshots
-<img width="236" height="118" alt="image" src="https://github.com/user-attachments/assets/013cb9cf-7d34-4b4a-a4f0-b7cd1aef7bf4" />
+
 
 <img width="515" height="304" alt="image" src="https://github.com/user-attachments/assets/2a6fd701-9a60-427f-bf19-69eb13ec6148" />
 
@@ -35,7 +35,7 @@ This project demonstrates a real-time **Incremental Load Pipeline** using **Wate
 
 
 
-<img width="509" height="299" alt="image" src="https://github.com/user-attachments/assets/b0813499-f6af-4ad4-ad1a-145ab3276213" />
+
 
 
 
