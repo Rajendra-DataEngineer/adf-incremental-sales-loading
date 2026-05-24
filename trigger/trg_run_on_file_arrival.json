@@ -1,0 +1,24 @@
+{
+	"name": "trg_run_on_file_arrival",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "pl_customer_bronze_to_silver",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/bronze/blobs/",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/d7fe91dc-fd28-488b-8161-a61024d7dc79/resourceGroups/rg-learing/providers/Microsoft.Storage/storageAccounts/rndlearning",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
