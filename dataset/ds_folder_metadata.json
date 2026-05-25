@@ -1,5 +1,5 @@
 {
-	"name": "Parameter",
+	"name": "ds_folder_metadata",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_adls_gen2_project3",
@@ -7,12 +7,10 @@
 		},
 		"parameters": {
 			"foldername": {
-				"type": "string",
-				"defaultValue": "*.csv"
+				"type": "string"
 			},
 			"filename": {
-				"type": "string",
-				"defaultValue": "*.csv"
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -24,10 +22,7 @@
 					"value": "@dataset().filename",
 					"type": "Expression"
 				},
-				"folderPath": {
-					"value": "@dataset().foldername\n",
-					"type": "Expression"
-				}
+				"folderPath": "@dataset().foldername"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
