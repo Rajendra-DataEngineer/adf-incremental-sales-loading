@@ -133,16 +133,6 @@
 			}
 		],
 		"concurrency": 1,
-		"parameters": {
-			"foldername": {
-				"type": "string",
-				"defaultValue": "salesdata"
-			},
-			"filename": {
-				"type": "string",
-				"defaultValue": "*.csv"
-			}
-		},
 		"annotations": []
 	}
 }
