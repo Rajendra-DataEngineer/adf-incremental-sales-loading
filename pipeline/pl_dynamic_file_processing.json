@@ -17,23 +17,16 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "ds_folder_metadata",
-						"type": "DatasetReference",
-						"parameters": {
-							"foldername": {
-								"value": "@pipeline().parameters.foldername",
-								"type": "Expression"
-							},
-							"filename": {
-								"value": "@pipeline().parameters.filename",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					},
 					"fieldList": [
-						"childItems"
+						"childItems",
+						"exists",
+						"itemName"
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
@@ -120,10 +113,13 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Parameter",
+									"referenceName": "ds_source_files_parameterized",
 									"type": "DatasetReference",
 									"parameters": {
-										"foldername": "silver",
+										"foldername": {
+											"value": "input",
+											"type": "Expression"
+										},
 										"filename": {
 											"value": "@item().name",
 											"type": "Expression"
