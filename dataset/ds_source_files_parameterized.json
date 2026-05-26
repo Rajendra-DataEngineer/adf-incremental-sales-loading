@@ -1,0 +1,31 @@
+{
+	"name": "ds_source_files_parameterized",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2_project3",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"foldername": {
+				"type": "string"
+			},
+			"filename": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "@dataset().filename",
+				"folderPath": "@dataset().foldername"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
