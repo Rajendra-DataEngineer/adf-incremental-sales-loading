@@ -1,0 +1,23 @@
+{
+	"name": "logs",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_gen2_project3",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "error_log.csv",
+				"fileSystem": "project-logs"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
