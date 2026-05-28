@@ -15,6 +15,12 @@
 					"referenceName": "pl_silver_to_gold",
 					"type": "PipelineReference"
 				}
+			},
+			{
+				"pipelineReference": {
+					"referenceName": "pl_master_medallion_pipeline_copy1",
+					"type": "PipelineReference"
+				}
 			}
 		],
 		"type": "BlobEventsTrigger",
