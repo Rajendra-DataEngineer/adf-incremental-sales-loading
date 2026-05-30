@@ -21,8 +21,8 @@ jobs:
       - name: Validate Data Factory
         run: |
           echo "Validating ADF Pipeline..."
-          # For now, we use a simple check. We can improve later.
-          echo "ADF Validation - Folder: ."
-          echo "Subscription: ${{ secrets.AZURE_SUBSCRIPTION_ID }}"
-          echo "Resource Group: ${{ secrets.AZURE_RESOURCE_GROUP }}"
-          echo "Factory Name: ${{ secrets.AZURE_DATA_FACTORY_NAME }}"
+          echo "Subscription ID : d7fe91dc-fd28-488b-8161-a61024d7dc79"
+          echo "Resource Group  : rg-learing"
+          echo "Data Factory    : adfclearingraj"
+          echo "Folder Path     : ."
+          echo "✅ ADF Validation Started"
