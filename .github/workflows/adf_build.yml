@@ -1,0 +1,33 @@
+name: Build ADF
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install ADF Utilities
+        run: npm install
+
+      - name: Validate and Build
+        run: |
+          npm run build --prefix ./node_modules/@microsoft/azure-data-factory-utilities
+        env:
+          GITHUB_WORKSPACE: ${{ github.workspace }}
+
+      - name: Upload ARM Template
+        uses: actions/upload-artifact@v3
+        with:
+          name: arm-templates
+          path: ${{ github.workspace }}/ARMTemplateForFactory.json
