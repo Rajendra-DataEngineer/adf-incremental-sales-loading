@@ -17,12 +17,22 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Clean and Install
+        run: |
+          rm -rf node_modules
+          npm cache clean --force
+          npm install
+
       - name: Install ADF Utilities
         run: npm install
+        
+      - name: List files to verify structure
+        run: ls -R
 
       - name: Validate and Build
+        # Use the full path explicitly or ensure the script runs from the root
         run: |
-          npm run build --prefix ./node_modules/@microsoft/azure-data-factory-utilities
+          node ./node_modules/@microsoft/azure-data-factory-utilities/lib/index validate "$(pwd)" /subscriptions/<your-sub-id>/resourceGroups/<your-rg>/providers/Microsoft.DataFactory/factories/<your-df-name>
         env:
           GITHUB_WORKSPACE: ${{ github.workspace }}
 
