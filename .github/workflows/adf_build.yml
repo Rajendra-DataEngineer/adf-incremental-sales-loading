@@ -9,33 +9,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Validate ADF Pipeline
+        uses: Azure/data-factory-validate-action@v1
         with:
-          node-version: '20'
-
-      - name: Clean and Install
-        run: |
-          rm -rf node_modules
-          npm cache clean --force
-          npm install
-
-      - name: Install ADF Utilities
-        run: npm install
-        
-      - name: List files to verify structure
-        run: ls -R
-
-      - name: Validate and Build
-        run: |
-         node ./node_modules/@microsoft/azure-data-factory-utilities/lib/index validate "$(pwd)/YOUR_ACTUAL_FOLDER_NAME" /subscriptions/
-          d7fe91dc-fd28-488b-8161-a61024d7dc79/resourceGroups/rg-learing/providers/Microsoft.DataFactory/factories/adfclearingraj
-
-      - name: Upload ARM Template
-        uses: actions/upload-artifact@v4
-        with:
-          name: arm-templates
-          path: ${{ github.workspace }}/ARMTemplateForFactory.json
+          subscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          resourceGroupName: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          factoryName: ${{ secrets.AZURE_DATA_FACTORY_NAME }}
+          folderPath: "."     # Important: Use dot (.) for root
